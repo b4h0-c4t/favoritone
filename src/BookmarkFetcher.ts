@@ -1,4 +1,4 @@
-const fetchBookmark = async () => 
+const fetchBookmark = async (): Promise<KintoneAPIResult> => 
   new kintone.Promise((resolve) => {
     const body = {
       __REQUEST_TOKEN__: kintone.getRequestToken(),
@@ -46,3 +46,5 @@ const shapeFetchBookmarkResult = (result: any): KintoneAPIResult => ({
   search: parseAnyToFavoriteRecords(result.search),
   other: parseAnyToFavoriteRecords(result.other),
 });
+
+export default fetchBookmark;

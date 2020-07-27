@@ -1,10 +1,13 @@
 import React from 'react';
 
-const App = () => {
+import FavoritoList from './FavoriteList';
+import FavoriteList from './FavoriteList';
+
+const App: React.FC = () => {
   return (
-    <div>
-      Hello React!
-    </div>
+    <>
+      <FavoriteList />
+    </>
   );
 };
 
