@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import deepEqual from 'deep-equal';
 
 import FavoriteCard from './FavoriteCard';
 import BookmarkFetcher from './BookmarkFetcher';
@@ -22,13 +23,16 @@ const FavoriteList: React.FC = () => {
         ...res.other,
       ];
 
-      let new_favorite_records: Array<FavoriteRecord> = [];
+      let new_favorite_records: Array<FavoriteRecord> = [...storaged_bookmark];
       fetched_flat_records.forEach((fetched_record: FavoriteRecord) => {
-        const found_index = storaged_bookmark.findIndex((storaged_record: FavoriteRecord) => fetched_record.url === storaged_record.url);
-        if(found_index) new_favorite_records = [...new_favorite_records, fetched_record];
+        const found_index = new_favorite_records.findIndex((new_favorite_record: FavoriteRecord) => deepEqual(new_favorite_record, fetched_record));
+        if(found_index === -1) new_favorite_records = [...new_favorite_records, fetched_record];
       });
 
-      favoriteListDispather(fetched_flat_records);
+      // TODO: Delete removed bookmark.
+      new_favorite_records = new_favorite_records.filter((new_favorite_record) => fetched_flat_records.findIndex((fetched_record) => deepEqual(fetched_record, new_favorite_record)) !== -1);
+
+      favoriteListDispather(new_favorite_records);
     });
   }, []);
 
